@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Http\Livewire\Contacts;
+
+use Livewire\Component;
+// use App\Models\[class];
+
+class ShowContact extends Component
+{
+    public $open = false;
+    public $isEdit = false;
+    public Contact $[classvar];
+
+    protected $listeners=['show[class]' => 'show[class]'];
+
+    protected $rules = [
+        '[classvar].name' => 'required',
+    ];
+
+    public function render()
+    {
+        return view('[view]');
+    }
+
+    public function mount()
+    {
+        $this->[classvar] = new [class]();
+    }
+
+    public function show[class]([class] $[classvar])
+    {
+        $this->[classvar] = $[classvar];
+        $this->open = true;
+    }
+}

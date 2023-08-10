@@ -1,0 +1,144 @@
+<?php
+
+namespace [namespace];
+
+use App\Http\Livewire\BaseComponent;
+use App\Models\[class];
+use DB, Log;
+
+class Create[class] extends BaseComponent
+{
+    public $open = false;
+    public $isEdit = false;
+
+    public [class] $[classvar];
+
+    /**
+     * rules 
+     */
+    protected $rules = [
+        '[classvar].name' => 'required',
+        '[classvar].isActive' => 'boolean',
+    ];
+
+    /**
+     * Listeners
+     */
+    protected $listeners=[
+        'create[class]' => 'create[class]',
+        'edit[class]' => 'edit[class]',
+        'closeModal' => 'closeModal',
+        'render' => 'render',
+    ];
+
+    /**
+     * render
+     */
+    public function render()
+    {
+        return view('[view]');
+    }
+
+    /**
+     * mount
+     */
+    public function mount()
+    {
+        // parent::mount();
+        
+        $this->[classvar] = new [class]();
+        $this->[classvar]->isActive = true;
+    }
+
+    /**
+     * method open create
+     */
+    public function create[class]()
+    {
+        $this->isEdit = false;
+        $this->open = true;
+    }
+
+    /**
+     * method open edit
+     */
+    public function edit[class]([class] $[classvar])
+    {
+        $this->[classvar] = $[classvar];
+        $this->isEdit = true;
+        $this->open = true;
+    }
+
+    /**
+     * method close modal
+     */
+    public function closeModal()
+    {
+        $this->reset(['open', 'isEdit']);
+        $this->[classvar] = new [class]();
+        $this->[classvar]->isActive = true;
+    }
+
+    /**
+     * method submit
+     */
+    public function submit()
+    {
+        $this->validate();
+        $this->isEdit ? $this->update():$this->store();
+    }
+
+    /**
+     * method store
+     */
+    public function store()
+    {
+        DB::beginTransaction();
+        try {
+            // Create [class]
+            $[classvar] = $this->[classvar];
+            $[classvar]->save();
+
+            // Commit Transaction
+            DB::commit();
+
+            $this->reset(['open', 'isEdit']);
+            $this->[classvar] = new [class]();
+            $this->[classvar]->isActive = true;
+            // $this->emitTo('admin-reservas.categorias.index-categorias', 'render');
+            $this->emit('alert');
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage());
+            $this->emit('error_alert');
+        } 
+    }
+
+    /**
+     * method update
+     */
+    public function update()
+    {
+        DB::beginTransaction();
+        try {
+            // Create [class]
+            $[classvar] = $this->[classvar];
+            $[classvar]->save();
+
+            // Commit Transaction
+            DB::commit();
+
+            $this->reset(['open', 'isEdit']);
+            $this->[classvar] = new [class]();
+            $this->[classvar]->isActive = true;
+            // $this->emitTo('admin-reservas.categorias.index-categorias', 'render');
+            $this->emit('alert');
+            
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage());
+            $this->emit('error_alert');
+        } 
+    }
+}
