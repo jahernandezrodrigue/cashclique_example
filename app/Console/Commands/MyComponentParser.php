@@ -56,8 +56,8 @@ class MyComponentParser extends ComponentParser
         }
 
          return preg_replace(
-            ['/\[namespace\]/', '/\[class\]/', '/\[view\]/', '/\[classvar\]/'],
-            [$this->classNamespace(), $this->className(), $this->viewName(), lcfirst($this->className())],
+            ['/\[namespace\]/', '/\[class\]/', '/\[view\]/', '/\[classvar\]/', '/\[view-component\]/'],
+            [$this->classNamespace(), $this->className(), $this->viewName(), lcfirst($this->className()), $this->viewImportName()],
             $template
         );
     }
@@ -92,6 +92,18 @@ class MyComponentParser extends ComponentParser
 
     public function viewName()
     {
+        $thecomponent = $this->component;
+
+        if(basename($this->stubDirectory) == 'index') {
+            $thecomponent = 'index-'.$this->component.'s';
+        }
+        if(basename($this->stubDirectory) == 'create') {
+            $thecomponent = 'create-'.$this->component;
+        }
+        if(basename($this->stubDirectory) == 'show') {
+            $thecomponent = 'show-'.$this->component;
+        }
+
         return collect()
             ->when(config('livewire.view_path') != resource_path(), function ($collection) {
                 return $collection->concat(explode('/',str($this->baseViewPath)->after(resource_path('views'))));
@@ -99,8 +111,41 @@ class MyComponentParser extends ComponentParser
             ->filter()
             ->concat($this->directories)
             ->map([Str::class, 'kebab'])
-            ->push($this->component)
+            ->push($thecomponent) // ->push($this->component)
             ->implode('.');
+    }
+    public function viewImportName()
+    {
+        $thecomponent = $this->component;
+
+        if(basename($this->stubDirectory) == 'index') {
+            $thecomponent = 'create-'.$this->component;
+        }
+        if(basename($this->stubDirectory) == 'create') {
+            $thecomponent = 'index-'.$this->component.'s';
+        }
+        // if(basename($this->stubDirectory) == 'show') {
+        //     $thecomponent = 'show-'.$this->component;
+        // }
+
+
+        $rr = collect()
+            ->when(config('livewire.view_path') != resource_path(), function ($collection) {
+                return $collection->concat(explode('/',str($this->baseViewPath)->after(resource_path('views'))));
+            })
+            ->filter()
+            ->concat($this->directories)
+            ->map([Str::class, 'kebab'])
+            ->push($thecomponent) // ->push($this->component)
+            ->implode('.');
+        
+        $originalCadena = $rr;
+        $partes = explode('.', $originalCadena);  // Dividir la cadena en partes usando el punto como separador
+        $partesSinLivewire = array_filter($partes, function ($parte) {
+            return $parte !== "livewire";  // Filtrar las partes que no son "livewire"
+        });
+        $nuevaCadena = implode('.', $partesSinLivewire);  // Volver a unir las partes con puntos
+        return $nuevaCadena;
     }
 
     public function viewContents()
@@ -108,10 +153,10 @@ class MyComponentParser extends ComponentParser
         if( ! File::exists($stubPath = base_path($this->stubDirectory.'livewire.view.stub'))) {
             $stubPath = __DIR__.DIRECTORY_SEPARATOR.'livewire.view.stub';
         }
-
+        
         return preg_replace(
-            ['/\[namespace\]/', '/\[class\]/', '/\[view\]/', '/\[classvar\]/'],
-            [$this->classNamespace(), $this->className(), $this->viewName(), lcfirst($this->className())],
+            ['/\[namespace\]/', '/\[class\]/', '/\[view\]/', '/\[classvar\]/', '/\[view-component\]/'],
+            [$this->classNamespace(), $this->className(), $this->viewName(), lcfirst($this->className()), $this->viewImportName()],
             file_get_contents($stubPath)
         );
     }

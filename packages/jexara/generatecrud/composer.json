@@ -1,0 +1,4 @@
+"psr-4": {
+    "App\\": "app/",
+    "Project\\PackageName\\": "packages/jexara/generatecrud/src"
+  }

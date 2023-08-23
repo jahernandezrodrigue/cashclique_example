@@ -3,7 +3,7 @@
 namespace [namespace];
 
 use App\Http\Livewire\BaseComponent;
-use App\Models\[class];
+use App\Models\Finance\[class];
 use DB, Log;
 
 class Create[class] extends BaseComponent
@@ -105,7 +105,7 @@ class Create[class] extends BaseComponent
             $this->reset(['open', 'isEdit']);
             $this->[classvar] = new [class]();
             $this->[classvar]->isActive = true;
-            // $this->emitTo('admin-reservas.categorias.index-categorias', 'render');
+            $this->emitTo('[view-component]', 'render');
             $this->emit('alert');
 
         } catch (\Exception $e) {
@@ -132,7 +132,7 @@ class Create[class] extends BaseComponent
             $this->reset(['open', 'isEdit']);
             $this->[classvar] = new [class]();
             $this->[classvar]->isActive = true;
-            // $this->emitTo('admin-reservas.categorias.index-categorias', 'render');
+            $this->emitTo('[view-component]', 'render');
             $this->emit('alert');
             
         } catch (\Exception $e) {

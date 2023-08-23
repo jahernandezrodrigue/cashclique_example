@@ -11,7 +11,7 @@ return [
     | your application. This value affects component auto-discovery and
     | any Livewire file helper commands, like `artisan make:livewire`.
     |
-    | After changing this item, run: `php artisan livewire:discover`.
+    | After changing this item, run: `php artisan livewire:cashclique`.
     |
     */
 
@@ -54,7 +54,8 @@ return [
     |
     */
 
-    'asset_url' => null,
+    // 'asset_url' => null,
+    'asset_url' => '/cashclique/public',
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +69,8 @@ return [
     |
     */
 
-    'app_url' => null,
+    // 'app_url' => null,
+    'app_url' => '/cashclique/public',
 
     /*
     |--------------------------------------------------------------------------

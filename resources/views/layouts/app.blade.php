@@ -20,7 +20,7 @@
     <body class="font-sans antialiased">
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-gray-100"> {{--bg-gradient-to-tr from-slate-900 via-slate-800 to-slate-900--}}
             @livewire('navigation-menu')
 
             <!-- Page Heading -->

@@ -14,8 +14,10 @@ class {{ class }} extends Model
      *
      * @var string
      */
-    // protected $table = 'users';
+    // protected $table = 'table_name';
 
-    // protected $fillable =['name', 'isActive'];
-    protected $fillable = {!! json_encode($fillable, JSON_PRETTY_PRINT) !!};
+    protected $fillable =[
+        'name', 
+        'isActive'
+    ];
 }

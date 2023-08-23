@@ -3,7 +3,7 @@
 namespace [namespace];
 
 use App\Http\Livewire\BaseComponent;
-// use App\Models\[class];
+use App\Models\Finance\[class];
 use DB, Log;
 
 class Index[class]s extends BaseComponent
